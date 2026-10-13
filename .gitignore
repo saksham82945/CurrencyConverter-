@@ -18,6 +18,8 @@ out/
 .env
 .env.*
 !.env.example
+!client/.env.example
+!client/.env.production
 *.local
 
 # System & editor files

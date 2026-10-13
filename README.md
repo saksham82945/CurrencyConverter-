@@ -99,7 +99,7 @@ Both `client` and `server` are completely self-contained with their own internal
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
 3. Add Environment Variable:
-   - `VITE_API_BASE_URL`: `https://your-render-backend-url.onrender.com` (leave blank to proxy locally)
+   - `VITE_API_BASE_URL`: `https://currencyconverter-vv8m.onrender.com` (already pre-configured in `client/.env.production`)
 4. Click **Deploy**. SPA rewrites are already handled automatically by [`client/vercel.json`](file:///Users/shubhamkumarsingh/Desktop/currencyconverter/client/vercel.json).
 
 ### 2. Deploy Backend on Render

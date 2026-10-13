@@ -1,6 +1,9 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+const apiBaseUrl = (
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? '' : 'https://currencyconverter-vv8m.onrender.com')
+).replace(/\/$/, '');
 
 export const apiClient = axios.create({
   baseURL: apiBaseUrl ? `${apiBaseUrl}/api/v1` : '/api/v1',
