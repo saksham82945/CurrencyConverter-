@@ -7,11 +7,10 @@
 
 ## 🏛️ System Architecture
 
-This repository is structured into modular subfolders:
+This repository is organized into two completely self-contained subfolders for simple, turnkey deployment:
 
-- **`client/`**: React 18, Vite, TypeScript, Tailwind CSS, Lucide Icons, React Router v6.
-- **`server/`**: Node.js, Express, TypeScript, Mongoose, Double-Entry General Ledger, In-Memory MongoDB Replica Set with ACID transaction support.
-- **`shared/`**: Shared TypeScript types, interfaces, and financial/currency constants.
+- **`client/`**: React 18, Vite, TypeScript, Tailwind CSS, Lucide Icons, React Router v6, with its own self-contained types and models.
+- **`server/`**: Node.js, Express, TypeScript, Mongoose, Double-Entry General Ledger, in-memory MongoDB replica set, with its own self-contained types and models.
 
 ---
 
