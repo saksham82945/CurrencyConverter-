@@ -13,7 +13,7 @@ import { FxService } from '../services/fx.service';
 import { generateReceiptHash } from '../utils/hash.util';
 import { sendSuccess, sendError } from '../utils/response.util';
 import { AuthenticatedRequest } from '../middleware/auth.middleware';
-import { formatMinorUnits, SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { formatMinorUnits, SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 
 const InternalTransferSchema = z.object({
   sourceAccountId: z.string(),

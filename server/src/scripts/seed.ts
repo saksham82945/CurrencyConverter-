@@ -6,8 +6,8 @@ import { BeneficiaryModel } from '../models/Beneficiary.model';
 import { AuthService } from '../services/auth.service';
 import { FxService } from '../services/fx.service';
 import { LedgerService } from '../services/ledger.service';
-import { SEED_INSTITUTIONS } from '../../../shared/constants/institutions';
-import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { SEED_INSTITUTIONS } from '../shared/constants/institutions';
+import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 
 export async function seedDatabase() {
   console.log('[Seed] Seeding database with demo financial records...');

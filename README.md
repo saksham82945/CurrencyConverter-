@@ -85,3 +85,38 @@ npm run test:client    # Client test suites
 - **Cryptographic Receipts:** Every journal entry and transaction generates a deterministic SHA-256 fingerprint hex.
 - **Audit Logging:** Append-only compliance log captures all actions, IP addresses, actors, and state diffs.
 - **ACID Double-Entry Transactions:** Multi-leg journal entries commit atomically to guarantee financial integrity.
+
+---
+
+## 🚀 Easy Hosting & Deployment
+
+Both `client` and `server` are completely self-contained with their own internal `shared` models and types:
+
+### 1. Deploy Frontend on Vercel
+1. In your **Vercel Dashboard**, click **Add New Project** and import the GitHub repo `CurrencyConverter-`.
+2. Configure Project Settings:
+   - **Root Directory**: `client`
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+3. Add Environment Variable:
+   - `VITE_API_BASE_URL`: `https://your-render-backend-url.onrender.com` (leave blank to proxy locally)
+4. Click **Deploy**. SPA rewrites are already handled automatically by [`client/vercel.json`](file:///Users/shubhamkumarsingh/Desktop/currencyconverter/client/vercel.json).
+
+### 2. Deploy Backend on Render
+1. In your **Render Dashboard**, click **New +** -> **Web Service**.
+2. Connect the GitHub repo `CurrencyConverter-`.
+3. Configure Service:
+   - **Root Directory**: `server`
+   - **Environment**: `Node`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+4. Add Environment Variables:
+   - `NODE_ENV`: `production`
+   - `PORT`: `5001`
+   - `JWT_SECRET`: *(Any secret string)*
+   - `JWT_REFRESH_SECRET`: *(Any secret string)*
+   - `CLIENT_ORIGIN`: `https://your-vercel-app-url.vercel.app` (or `*` to allow all)
+   - `MONGODB_URI`: *(Optional: Leave empty for automated in-memory MongoDB replica set or provide MongoDB Atlas URI)*
+5. Click **Create Web Service**. *(A `render.yaml` blueprint is also included for 1-click blueprint deploy).*
+

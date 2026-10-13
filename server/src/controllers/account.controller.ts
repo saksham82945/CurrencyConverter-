@@ -7,9 +7,9 @@ import { LedgerLineModel } from '../models/LedgerLine.model';
 import { JournalEntryModel } from '../models/JournalEntry.model';
 import { AuthenticatedRequest } from '../middleware/auth.middleware';
 import { sendSuccess, sendError } from '../utils/response.util';
-import { formatMinorUnits, SupportedCurrency } from '../../../shared/constants/currencies';
-import { getWorldCurrency } from '../../../shared/constants/worldCurrencies';
-import { AccountDTO } from '../../../shared/types/account.types';
+import { formatMinorUnits, SupportedCurrency } from '../shared/constants/currencies';
+import { getWorldCurrency } from '../shared/constants/worldCurrencies';
+import { AccountDTO } from '../shared/types/account.types';
 import { FxService } from '../services/fx.service';
 import { AuthService } from '../services/auth.service';
 

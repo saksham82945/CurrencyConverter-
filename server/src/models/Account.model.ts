@@ -1,6 +1,6 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
-import { AccountType, AccountStatus } from '../../../shared/types/account.types';
+import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
+import { AccountType, AccountStatus } from '../shared/types/account.types';
 
 export interface IAccount extends Document {
   _id: Types.ObjectId;

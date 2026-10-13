@@ -6,7 +6,7 @@ import { MultiCurrencyTransferForm } from '../src/components/transfers/MultiCurr
 import { P2PTransferForm } from '../src/components/transfers/P2PTransferForm';
 import { ExternalTransferForm } from '../src/components/transfers/ExternalTransferForm';
 import { FxSwapForm } from '../src/components/transfers/FxSwapForm';
-import { AccountDTO } from '../../shared/types/account.types';
+import { AccountDTO } from '@shared/types/account.types';
 
 const renderWithProviders = (ui: React.ReactElement) => {
   return render(<ToastProvider>{ui}</ToastProvider>);

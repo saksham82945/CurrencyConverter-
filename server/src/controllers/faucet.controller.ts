@@ -6,7 +6,7 @@ import { LedgerAccountModel } from '../models/LedgerAccount.model';
 import { LedgerService } from '../services/ledger.service';
 import { AuthenticatedRequest } from '../middleware/auth.middleware';
 import { sendSuccess, sendError } from '../utils/response.util';
-import { formatMinorUnits, SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { formatMinorUnits, SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 
 const FaucetSchema = z.object({
   accountId: z.string(),

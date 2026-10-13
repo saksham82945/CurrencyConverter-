@@ -7,8 +7,8 @@ import { StatCard } from '../src/components/common/StatCard';
 import { Button } from '../src/components/common/Button';
 import { VirtualCardVisual } from '../src/components/cards/VirtualCardVisual';
 import { InvariantChecker } from '../src/components/ledger/InvariantChecker';
-import { formatMinorUnits, parseToMinorUnits } from '../../shared/constants/currencies';
-import { VirtualCardDTO } from '../../shared/types/account.types';
+import { formatMinorUnits, parseToMinorUnits } from '@shared/constants/currencies';
+import { VirtualCardDTO } from '@shared/types/account.types';
 
 describe('Frontend Financial UI & Integrity Tests', () => {
   it('formats minor units accurately without floating point loss', () => {

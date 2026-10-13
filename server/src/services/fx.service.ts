@@ -1,5 +1,5 @@
-import { SupportedCurrency, SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
-import { getWorldCurrency, WORLD_CURRENCIES } from '../../../shared/constants/worldCurrencies';
+import { SupportedCurrency, SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
+import { getWorldCurrency, WORLD_CURRENCIES } from '../shared/constants/worldCurrencies';
 import { ExchangeRateModel } from '../models/ExchangeRate.model';
 
 // Default baseline rates against USD as emergency fallback if completely offline

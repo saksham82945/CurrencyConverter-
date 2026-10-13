@@ -14,9 +14,21 @@ app.use(helmet({
   crossOriginResourcePolicy: false
 }));
 
-// CORS setup for Vite frontend
+// CORS setup for Vite frontend (supports localhost, custom CLIENT_ORIGIN, and Vercel domains)
 app.use(cors({
-  origin: [ENV.CLIENT_ORIGIN, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (
+      origin === ENV.CLIENT_ORIGIN ||
+      origin === 'http://localhost:5173' ||
+      origin === 'http://127.0.0.1:5173' ||
+      origin.endsWith('.vercel.app') ||
+      ENV.NODE_ENV !== 'production'
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Idempotency-Key']

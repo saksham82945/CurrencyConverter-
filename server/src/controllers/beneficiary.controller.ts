@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { BeneficiaryModel } from '../models/Beneficiary.model';
 import { AuthenticatedRequest } from '../middleware/auth.middleware';
 import { sendSuccess, sendError } from '../utils/response.util';
-import { BeneficiaryDTO } from '../../../shared/types/account.types';
-import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { BeneficiaryDTO } from '../shared/types/account.types';
+import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 
 const CreateBeneficiarySchema = z.object({
   name: z.string().min(2),

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/auth.service';
 import { UserModel } from '../models/User.model';
 import { sendError } from '../utils/response.util';
-import { UserRole } from '../../../shared/types/account.types';
+import { UserRole } from '../shared/types/account.types';
 
 export interface AuthenticatedRequest extends Request {
   user?: {

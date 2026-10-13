@@ -1,5 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 
 export interface IExchangeRate extends Document {
   _id: Types.ObjectId;

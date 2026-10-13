@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { z } from 'zod';
 import { FxService } from '../services/fx.service';
 import { sendSuccess, sendError } from '../utils/response.util';
-import { formatMinorUnits, SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { formatMinorUnits, SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 
 const QuoteSchema = z.object({
   from: z.string().min(3).max(10),

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { InstitutionModel } from '../models/Institution.model';
 import { sendSuccess, sendError } from '../utils/response.util';
-import { InstitutionDTO } from '../../../shared/types/institution.types';
+import { InstitutionDTO } from '../shared/types/institution.types';
 
 export class DirectoryController {
   static async searchInstitutions(req: Request, res: Response) {

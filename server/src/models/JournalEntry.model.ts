@@ -1,5 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { JournalReferenceType, JournalStatus } from '../../../shared/types/ledger.types';
+import { JournalReferenceType, JournalStatus } from '../shared/types/ledger.types';
 
 export interface IJournalEntry extends Document {
   _id: Types.ObjectId;

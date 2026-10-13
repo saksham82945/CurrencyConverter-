@@ -1,6 +1,6 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
-import { EntryDirection } from '../../../shared/types/ledger.types';
+import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
+import { EntryDirection } from '../shared/types/ledger.types';
 
 export interface ILedgerLine extends Document {
   _id: Types.ObjectId;

@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { ApiSuccessResponse, ApiErrorResponse } from '../../../shared/types/api.types';
+import { ApiSuccessResponse, ApiErrorResponse } from '../shared/types/api.types';
 
 export function sendSuccess<T>(res: Response, data: T, statusCode = 200) {
   const payload: ApiSuccessResponse<T> = {

@@ -3,7 +3,7 @@ import { CardModel, ICard } from '../models/Card.model';
 import { AccountModel } from '../models/Account.model';
 import { LedgerAccountModel } from '../models/LedgerAccount.model';
 import { LedgerService } from './ledger.service';
-import { VirtualCardDTO } from '../../../shared/types/account.types';
+import { VirtualCardDTO } from '../shared/types/account.types';
 
 export class CardService {
   /**

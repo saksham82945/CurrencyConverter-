@@ -1,7 +1,7 @@
 import { apiClient } from './client';
-import { UserDTO, AccountDTO, BeneficiaryDTO, VirtualCardDTO, ExchangeRateDTO } from '../../../shared/types/account.types';
-import { InstitutionDTO } from '../../../shared/types/institution.types';
-import { TrialBalanceDTO } from '../../../shared/types/ledger.types';
+import { UserDTO, AccountDTO, BeneficiaryDTO, VirtualCardDTO, ExchangeRateDTO } from '@shared/types/account.types';
+import { InstitutionDTO } from '@shared/types/institution.types';
+import { TrialBalanceDTO } from '@shared/types/ledger.types';
 
 export const AuthAPI = {
   login: async (email: string, password: string) => {

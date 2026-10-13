@@ -1,6 +1,6 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
-import { LedgerAccountType, NormalBalance } from '../../../shared/types/ledger.types';
+import { SupportedCurrency, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
+import { LedgerAccountType, NormalBalance } from '../shared/types/ledger.types';
 
 export interface ILedgerAccount extends Document {
   _id: Types.ObjectId;

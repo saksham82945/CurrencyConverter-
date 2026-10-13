@@ -3,13 +3,13 @@ import { runInTransaction } from '../config/db';
 import { LedgerAccountModel, ILedgerAccount } from '../models/LedgerAccount.model';
 import { JournalEntryModel, IJournalEntry } from '../models/JournalEntry.model';
 import { LedgerLineModel, ILedgerLine } from '../models/LedgerLine.model';
-import { SupportedCurrency, formatMinorUnits, ALL_SUPPORTED_CURRENCIES } from '../../../shared/constants/currencies';
+import { SupportedCurrency, formatMinorUnits, ALL_SUPPORTED_CURRENCIES } from '../shared/constants/currencies';
 import { 
   JournalReferenceType, 
   EntryDirection, 
   TrialBalanceDTO, 
   TrialBalanceItem 
-} from '../../../shared/types/ledger.types';
+} from '../shared/types/ledger.types';
 
 export interface LedgerLegInput {
   ledgerAccountId: Types.ObjectId | string;

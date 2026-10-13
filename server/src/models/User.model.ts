@@ -1,5 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { UserRole, KycTier } from '../../../shared/types/account.types';
+import { UserRole, KycTier } from '../shared/types/account.types';
 
 export interface IUser extends Document {
   _id: Types.ObjectId;
