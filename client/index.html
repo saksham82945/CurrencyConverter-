@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23E11932%22/><text x=%2250%22 y=%2266%22 font-size=%2238%22 font-family=%22sans-serif%22 font-weight=%22900%22 fill=%22white%22 text-anchor=%22middle%22>BML</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bank of Maldives — Internet Banking</title>
+    <meta name="description" content="Bank of Maldives Internet Banking — Online banking portal for personal and business banking, instant transfers, multi-currency accounts, and cards." />
+    <meta name="keywords" content="Bank of Maldives, BML, Internet Banking, Maldives, BML Internet Banking, currency converter, foreign exchange" />
+    <meta name="application-name" content="Bank of Maldives Internet Banking" />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Bank of Maldives — Internet Banking" />
+    <meta property="og:description" content="Bank of Maldives Internet Banking — Secure online banking platform with multi-currency accounts, instant transfers, and real-time ledger accounting." />
+    <meta property="og:site_name" content="Bank of Maldives Internet Banking" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bank of Maldives — Internet Banking" />
+    <meta name="twitter:description" content="Bank of Maldives Internet Banking — Secure digital banking, multi-currency accounts, and real-time transfers." />
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Instant Theme Bootstrap to prevent FOUC -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('bml_theme') || localStorage.getItem('nexapay_theme');
+          var isDark = saved === 'dark' || (!saved && true) || (saved === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950 min-h-screen transition-colors duration-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+version: 3
+agent:
+  authtoken: 3KbPEiInzqTdXXpKGOpj3VRzV4c_4oo4QEYd3Uk27zDcDVQb8
+endpoints:
+  - name: frontend
+    url: https://immunity-encrypt-crushing.ngrok-free.dev
+    upstream:
+      url: 5173

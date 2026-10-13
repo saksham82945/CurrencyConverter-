@@ -1,0 +1,27 @@
+{
+  "name": "bank-of-maldives-internet-banking",
+  "version": "1.0.0",
+  "description": "Bank of Maldives Internet Banking Platform & Multi-Currency Ledger Simulator",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"cyan,magenta\" \"npm run dev:server\" \"npm run dev:client\"",
+    "build:server": "npm --prefix server run build",
+    "build:client": "npm --prefix client run build",
+    "build": "npm run build:server && npm run build:client",
+    "test:server": "npm --prefix server run test",
+    "test:client": "npm --prefix client run test",
+    "test": "npm run test:server && npm run test:client",
+    "tunnel": "node tunnel.js",
+    "tunnel:client": "node tunnel.js 5173",
+    "tunnel:server": "node tunnel.js 5001",
+    "tunnel:8085": "node ngrok.js 8085"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@ngrok/ngrok": "^1.7.0"
+  }
+}
