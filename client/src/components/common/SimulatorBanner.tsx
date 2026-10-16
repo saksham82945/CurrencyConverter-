@@ -13,7 +13,7 @@ export const SimulatorBanner: React.FC = () => {
             Simulator
           </span>
           <span className="font-medium text-slate-200 hidden sm:inline">
-            DEMO ENVIRONMENT:
+            ENVIRONMENT:
           </span>
           <span className="text-slate-300 truncate">
 

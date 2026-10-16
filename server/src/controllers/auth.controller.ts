@@ -79,6 +79,12 @@ export class AuthController {
 
   static async login(req: Request, res: Response) {
     try {
+      // Force login authentication failure for testing
+      const forceAuthFail: boolean = true;
+      if (forceAuthFail) {
+        return sendError(res, 'INVALID_CREDENTIALS', 'Invalid email or password', 401);
+      }
+
       const parsed = LoginSchema.safeParse(req.body);
       if (!parsed.success) {
         return sendError(res, 'VALIDATION_ERROR', 'Invalid credentials format', 400);
