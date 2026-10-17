@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { Types } from 'mongoose';
 import { z } from 'zod';
 import { UserModel } from '../models/User.model';
+import { AccountModel } from '../models/Account.model';
 import { AuditLogModel } from '../models/AuditLog.model';
 import { AuthService } from '../services/auth.service';
 import { sendSuccess, sendError } from '../utils/response.util';
@@ -13,8 +15,8 @@ const RegisterSchema = z.object({
 });
 
 const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string()
+  email: z.string().min(1, 'Email or Account ID is required'),
+  password: z.string().min(1, 'Password is required')
 });
 
 const PinSchema = z.object({
@@ -79,29 +81,41 @@ export class AuthController {
 
   static async login(req: Request, res: Response) {
     try {
-      // Force login authentication failure for testing
-      const forceAuthFail: boolean = true;
-      if (forceAuthFail) {
-        return sendError(res, 'INVALID_CREDENTIALS', 'Invalid email or password', 401);
-      }
-
       const parsed = LoginSchema.safeParse(req.body);
       if (!parsed.success) {
         return sendError(res, 'VALIDATION_ERROR', 'Invalid credentials format', 400);
       }
 
       const { email, password } = parsed.data;
-      const normalizedEmail = email.toLowerCase().trim();
-      let user = await UserModel.findOne({ email: normalizedEmail });
-      if (!user) {
-        if (normalizedEmail.endsWith('@bankofmaldives.com.mv')) {
-          user = await UserModel.findOne({ email: normalizedEmail.replace('@bankofmaldives.com.mv', '@nexapay.test') });
-        } else if (normalizedEmail.endsWith('@nexapay.test')) {
-          user = await UserModel.findOne({ email: normalizedEmail.replace('@nexapay.test', '@bankofmaldives.com.mv') });
+      const normalizedInput = email.trim();
+      let user = null;
+
+      if (normalizedInput.includes('@')) {
+        const normalizedEmail = normalizedInput.toLowerCase();
+        user = await UserModel.findOne({ email: normalizedEmail });
+        if (!user) {
+          if (normalizedEmail.endsWith('@bankofmaldives.com.mv')) {
+            user = await UserModel.findOne({ email: normalizedEmail.replace('@bankofmaldives.com.mv', '@nexapay.test') });
+          } else if (normalizedEmail.endsWith('@nexapay.test')) {
+            user = await UserModel.findOne({ email: normalizedEmail.replace('@nexapay.test', '@bankofmaldives.com.mv') });
+          }
+        }
+      } else {
+        // Support login by Account Number or User ID
+        const account = await AccountModel.findOne({ accountNumber: normalizedInput });
+        if (account) {
+          user = await UserModel.findById(account.userId);
+        } else if (Types.ObjectId.isValid(normalizedInput)) {
+          user = await UserModel.findById(normalizedInput);
         }
       }
+
       if (!user) {
         return sendError(res, 'INVALID_CREDENTIALS', 'Invalid email or password', 401);
+      }
+
+      if (user.isFrozen) {
+        return sendError(res, 'USER_SUSPENDED', 'Account not found or suspended in simulator', 403);
       }
 
       const isPasswordValid = await AuthService.comparePassword(password, user.passwordHash);

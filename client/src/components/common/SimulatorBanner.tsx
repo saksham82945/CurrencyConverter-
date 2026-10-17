@@ -13,10 +13,10 @@ export const SimulatorBanner: React.FC = () => {
             Simulator
           </span>
           <span className="font-medium text-slate-200 hidden sm:inline">
-            ENVIRONMENT:
+            DEMO ENVIRONMENT:
           </span>
           <span className="text-slate-300 truncate">
-
+            Bank of Maldives Multi-Currency Banking Engine (Simulated Ledger)
           </span>
         </div>
 

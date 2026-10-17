@@ -82,24 +82,42 @@ export const LoginPage: React.FC = () => {
             <Sparkles className="w-3.5 h-3.5 text-red-500" />
             Quick Demo Auto-Fill:
           </div>
-          <div className="grid grid-cols-2 gap-2.5 text-xs font-mono">
+          <div className="grid grid-cols-2 gap-2 text-xs font-mono">
             <button
               type="button"
               onClick={() => fillCredentials('forextradingplatformfxe@gmail.com', 'Darren Trader')}
-              className="px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-300 dark:border-emerald-700/60 text-slate-800 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-300 transition-all text-center shadow-sm"
+              className="px-2.5 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-300 dark:border-emerald-700/60 text-slate-800 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-300 transition-all text-left shadow-sm"
               title="Auto-fill Darren Trader credentials"
             >
-              <span className="block font-bold text-emerald-600 dark:text-emerald-400 text-sm">Darren Trader</span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400">Forex VIP (forextradingplatformfxe@gmail.com)</span>
+              <span className="block font-bold text-emerald-600 dark:text-emerald-400 text-xs">Darren Trader</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate block">Forex VIP</span>
             </button>
             <button
               type="button"
               onClick={() => fillCredentials('admin@bankofmaldives.com.mv', 'AdminPassword123!')}
-              className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all text-center shadow-sm"
+              className="px-2.5 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-300 dark:border-amber-700/60 text-slate-800 dark:text-slate-200 hover:text-amber-700 dark:hover:text-amber-300 transition-all text-left shadow-sm"
               title="Auto-fill Admin credentials"
             >
-              <span className="block font-bold text-amber-600 dark:text-amber-400 text-sm">Admin</span>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400">Auditor</span>
+              <span className="block font-bold text-amber-600 dark:text-amber-400 text-xs">Admin Auditor</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate block">Full Ledger Access</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillCredentials('alice@bankofmaldives.com.mv', 'Password123!')}
+              className="px-2.5 py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all text-left shadow-sm"
+              title="Auto-fill Alice credentials"
+            >
+              <span className="block font-bold text-indigo-600 dark:text-indigo-400 text-xs">Alice Johnson</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate block">Personal Banking</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillCredentials('bob@bankofmaldives.com.mv', 'Password123!')}
+              className="px-2.5 py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all text-left shadow-sm"
+              title="Auto-fill Bob credentials"
+            >
+              <span className="block font-bold text-cyan-600 dark:text-cyan-400 text-xs">Bob Smith</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate block">$5,000 USD Funded</span>
             </button>
           </div>
         </div>
@@ -107,7 +125,7 @@ export const LoginPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Email Address or Account ID"
-            type="email"
+            type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="forextradingplatformfxe@gmail.com"
