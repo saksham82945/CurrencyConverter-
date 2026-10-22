@@ -5,7 +5,7 @@ import { Input } from '../common/Input';
 import { transfersApi, TransferResult } from '../../api/transfers.api';
 import { useToast } from '../../context/ToastContext';
 import { formatMinorUnits, parseToMinorUnits } from '@shared/constants/currencies';
-import { Send, UserCheck, ShieldCheck, Lock } from 'lucide-react';
+import { Send, UserCheck, ShieldCheck, Lock, User } from 'lucide-react';
 
 interface P2PTransferFormProps {
   accounts: AccountDTO[];
@@ -18,9 +18,10 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
 }) => {
   const { success, error } = useToast();
   const [sourceAccountId, setSourceAccountId] = useState(accounts[0]?.id || '');
-  const [recipientIdentifier, setRecipientIdentifier] = useState('');
-  const [amountInput, setAmountInput] = useState('');
-  const [description, setDescription] = useState('');
+  const [recipientIdentifier, setRecipientIdentifier] = useState('7730000852744');
+  const [recipientName, setRecipientName] = useState('ALI SHAVIN');
+  const [amountInput, setAmountInput] = useState('500.00');
+  const [description, setDescription] = useState('Transfer to ALI SHAVIN');
   const [simulatedPin, setSimulatedPin] = useState('1234');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -63,17 +64,16 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
       const result = await transfersApi.transferInternal({
         sourceAccountId: selectedAccount.id,
         recipientIdentifier,
+        recipientName: recipientName.trim() || undefined,
         amountMinorUnits,
-        description: description || 'P2P Transfer',
+        description: description || `Transfer to ${recipientName.trim() || recipientIdentifier}`,
         simulatedPin
       });
 
       success(
         'Transfer Complete! 💸',
-        `Sent ${formatMinorUnits(amountMinorUnits, selectedAccount.currency)} to ${recipientIdentifier}`
+        `Sent ${formatMinorUnits(amountMinorUnits, selectedAccount.currency)} to ${recipientName.trim() || recipientIdentifier}`
       );
-      setAmountInput('');
-      setDescription('');
       onTransferSuccess(result);
     } catch (err: any) {
       error(
@@ -93,7 +93,7 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
           Internal Peer-to-Peer (BML) Transfer
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Send funds instantly to any registered Bank of Maldives account holder via 10-digit account number or email.
+          Send funds instantly to any Bank of Maldives account holder or normal receipt account number (10-13 digits) or email.
         </p>
       </div>
 
@@ -115,16 +115,16 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
         </select>
       </div>
 
-      {/* Recipient Identifier */}
+      {/* Recipient Account Number */}
       <div>
         <Input
           label="Recipient Account Number or Email"
-          placeholder="e.g. 7730000852744 or ALI SHAVIN"
+          placeholder="e.g. 7730000852744 (any receipt account number or email)"
           value={recipientIdentifier}
           onChange={(e) => setRecipientIdentifier(e.target.value)}
           required
           leftIcon={<UserCheck className="w-4 h-4 text-emerald-500" />}
-          helperText="Bank of Maldives standard 10-13 digit account number or registered email"
+          helperText="Accepts any Bank of Maldives receipt account number (10-13 digits) or registered email"
         />
 
         {/* Quick Recipient Presets */}
@@ -134,6 +134,7 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
             type="button"
             onClick={() => {
               setRecipientIdentifier('7730000852744');
+              setRecipientName('ALI SHAVIN');
               setDescription('Transfer to ALI SHAVIN');
               if (!amountInput) setAmountInput('500.00');
             }}
@@ -143,12 +144,39 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
           </button>
           <button
             type="button"
-            onClick={() => setRecipientIdentifier('bob@bankofmaldives.com.mv')}
+            onClick={() => {
+              setRecipientIdentifier('bob@bankofmaldives.com.mv');
+              setRecipientName('Bob Smith');
+              setDescription('Transfer to Bob Smith');
+            }}
             className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all active:scale-95"
           >
             Bob Smith
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              setRecipientIdentifier('alice@bankofmaldives.com.mv');
+              setRecipientName('Alice Johnson');
+              setDescription('Transfer to Alice Johnson');
+            }}
+            className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all active:scale-95"
+          >
+            Alice Johnson
+          </button>
         </div>
+      </div>
+
+      {/* Recipient Name */}
+      <div>
+        <Input
+          label="Recipient / Account Holder Name (Optional)"
+          placeholder="e.g. ALI SHAVIN"
+          value={recipientName}
+          onChange={(e) => setRecipientName(e.target.value)}
+          leftIcon={<User className="w-4 h-4 text-emerald-500" />}
+          helperText="Name displayed on the official Bank of Maldives transaction receipt slip"
+        />
       </div>
 
       {/* Amount Input */}

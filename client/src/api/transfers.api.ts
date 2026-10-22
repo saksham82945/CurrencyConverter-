@@ -5,6 +5,7 @@ import { JournalEntryDTO } from '@shared/types/ledger.types';
 export interface InternalTransferPayload {
   sourceAccountId: string;
   recipientIdentifier: string;
+  recipientName?: string;
   amountMinorUnits: number;
   targetCurrency?: string;
   description?: string;
