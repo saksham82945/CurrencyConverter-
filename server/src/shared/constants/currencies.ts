@@ -1,4 +1,4 @@
-export type SupportedCurrency = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'CAD' | 'INR' | 'PKR' | 'AED';
+export type SupportedCurrency = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'CAD' | 'INR' | 'PKR' | 'AED' | 'MVR';
 
 export const ALL_SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'USD',
@@ -8,7 +8,8 @@ export const ALL_SUPPORTED_CURRENCIES: SupportedCurrency[] = [
   'CAD',
   'INR',
   'PKR',
-  'AED'
+  'AED',
+  'MVR'
 ];
 
 export interface CurrencyConfig {
@@ -22,6 +23,15 @@ export interface CurrencyConfig {
 }
 
 export const SUPPORTED_CURRENCIES: Record<SupportedCurrency, CurrencyConfig> = {
+  MVR: {
+    code: 'MVR',
+    name: 'Maldivian Rufiyaa',
+    symbol: 'MVR ',
+    minorUnitName: 'Laari',
+    factor: 100,
+    decimals: 2,
+    sampleFormatted: 'MVR 500.00'
+  },
   USD: {
     code: 'USD',
     name: 'US Dollar',

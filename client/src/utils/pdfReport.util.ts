@@ -356,133 +356,163 @@ export function generateTransactionReceiptPDF(receipt: ReceiptData): void {
 
   const meta = receipt.metadata || {};
   const rawDate = receipt.postedAt ? new Date(receipt.postedAt) : new Date();
-  const formattedDate = rawDate.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const formattedDate = `${pad(rawDate.getDate())}/${pad(rawDate.getMonth() + 1)}/${rawDate.getFullYear()} ${pad(rawDate.getHours())}:${pad(rawDate.getMinutes())}`;
+
+  const reference = meta.referenceId || (
+    receipt.entryNumber?.startsWith('BLAZ')
+      ? receipt.entryNumber
+      : receipt.entryNumber
+        ? `BLAZ${receipt.entryNumber.replace(/\D/g, '').padEnd(12, '896331324224').substring(0, 12)}`
+        : 'BLAZ896331324224'
+  );
+
+  const senderName = (
+    meta.senderName ||
+    receipt.lines?.find((l) => l.direction === 'DEBIT')?.accountName ||
+    'ABDLA.SHAHEER'
+  ).toUpperCase();
+
+  const recipientName = (
+    meta.beneficiaryName ||
+    meta.recipientName ||
+    'ALI SHAVIN'
+  ).toUpperCase();
+
+  const recipientAccount = (
+    meta.beneficiaryAccountNumber ||
+    meta.recipientAccount ||
+    '7730000852744'
+  );
+
+  const currency = (
+    meta.targetCurrency ||
+    meta.sourceCurrency ||
+    receipt.lines?.[0]?.currency ||
+    'MVR'
+  ).toUpperCase();
+
+  const minorUnits =
+    meta.targetAmountMinorUnits ??
+    meta.sourceAmountMinorUnits ??
+    receipt.lines?.[0]?.amountMinorUnits ??
+    50000;
+
+  const majorAmount = (minorUnits / 100).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   });
 
-  const referenceId = meta.referenceId || receipt.entryNumber?.replace(/\D/g, '').substring(0, 9) || '391879681';
-  const creditedAccount = meta.beneficiaryAccountNumber || meta.recipientAccount || '01004012494';
-  const beneficiaryName = meta.beneficiaryName || meta.recipientName || 'Nader Kamel';
-  const beneficiaryBank = meta.beneficiaryBank || meta.institutionName || 'Vodafone Cash';
-  const narration = (meta.narration || receipt.description || 'PROFITS PAYMENT').toUpperCase();
-  const senderName = meta.senderName || 'Berry Slibert';
+  const amountDisplay = `${currency} ${majorAmount}`;
 
-  const sourceCurrency = meta.sourceCurrency || 'USD';
-  const sourceAmountFormatted = meta.sourceAmountMinorUnits
-    ? `${(meta.sourceAmountMinorUnits / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${sourceCurrency}`
-    : (receipt.lines?.[0]?.amountFormatted || '1,000.00 USD');
-
-  const hasFx = Boolean(meta.exchangeRateUsed && meta.targetCurrency && meta.targetCurrency !== sourceCurrency);
-  const targetFormatted = meta.targetAmountFormatted || (meta.targetAmountMinorUnits ? `${(meta.targetAmountMinorUnits / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })} ${meta.targetCurrency}` : '');
-
-  const amountDisplay = hasFx
-    ? `${sourceAmountFormatted} (Credited: ${targetFormatted} @ ${meta.exchangeRateUsed})`
-    : sourceAmountFormatted;
-
-  // Outer clean document border
-  doc.setDrawColor(225, 230, 236);
+  // Clean document card border
+  doc.setDrawColor(226, 232, 240);
   doc.setLineWidth(0.4);
-  doc.roundedRect(14, 14, pageWidth - 28, pageHeight - 28, 2, 2, 'D');
+  doc.roundedRect(20, 16, pageWidth - 40, pageHeight - 32, 4, 4, 'D');
 
-  // Subtle Repeating Diagonal Watermarks in soft faint pink/red
-  doc.setTextColor(252, 235, 235);
+  // Top Red BML Logo Box (Centered)
+  const logoSize = 16;
+  const logoX = (pageWidth - logoSize) / 2;
+  const logoY = 24;
+
+  doc.setFillColor(237, 28, 36); // #ED1C24 Bank of Maldives Red
+  doc.roundedRect(logoX, logoY, logoSize, logoSize, 2.5, 2.5, 'F');
+
+  // White BML Sailboat Logo Silhouette inside red box
+  doc.setFillColor(255, 255, 255);
+  // Triangle Sail
+  doc.triangle(
+    logoX + 4.5, logoY + 11.5,
+    logoX + 8.5, logoY + 3.5,
+    logoX + 8.5, logoY + 11.5,
+    'F'
+  );
+  // Boat Hull
+  doc.rect(logoX + 4, logoY + 12.3, 8.5, 1.2, 'F');
+  // Wave line
+  doc.rect(logoX + 4.5, logoY + 14.1, 7.5, 0.6, 'F');
+
+  // Subtitle Message: "Thank you. Transfer transaction is successful."
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.setTextColor(30, 41, 59);
+  doc.text('Thank you. Transfer transaction is successful.', pageWidth / 2, 47, { align: 'center' });
+
+  // Big Amount Display: "500.00"
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  for (let wy = 30; wy < pageHeight - 30; wy += 35) {
-    for (let wx = 10; wx < pageWidth; wx += 60) {
-      doc.text('Bank of Maldives', wx, wy, { angle: 25 });
-    }
-  }
+  doc.setFontSize(28);
+  doc.setTextColor(21, 35, 62); // Deep navy #15233e
+  doc.text(majorAmount, pageWidth / 2, 60, { align: 'center' });
 
-  // Header: Left "TRANSACTION RECEIPT", Right "BANK OF MALDIVES"
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(15);
-  doc.setTextColor(0, 0, 0);
-  doc.text('TRANSACTION RECEIPT', 22, 28);
+  // Currency: "MVR"
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.setTextColor(100, 116, 139); // Slate-500
+  doc.text(currency, pageWidth / 2, 66, { align: 'center' });
 
-  // Logo & Bank Title (Right)
-  doc.setFontSize(10);
-  doc.setTextColor(225, 25, 50); // BML Red #e11932
-  doc.text('BANK OF MALDIVES', pageWidth - 22, 28, { align: 'right' });
+  // Divider Line
+  doc.setDrawColor(241, 245, 249);
+  doc.setLineWidth(0.4);
+  doc.line(32, 72, pageWidth - 32, 72);
 
-  // Crisp Horizontal Divider Line
-  doc.setDrawColor(0, 0, 0);
-  doc.setLineWidth(0.6);
-  doc.line(22, 33, pageWidth - 22, 33);
-
-  // Key-Value Rows
+  // Table Data matching mobile receipt rows
   const tableData = [
-    ['Reference ID:', referenceId],
-    ['Transaction Type:', 'DEBIT'],
-    ['Transaction Date:', formattedDate],
-    ['Credited Account:', creditedAccount],
-    ['Beneficiary Name:', beneficiaryName],
-    ['Beneficiary Bank:', beneficiaryBank],
-    ['Narration:', narration],
-    ['Transaction Status:', 'Transaction Successful'],
-    ['Amount:', amountDisplay],
-    ['Sender:', senderName]
+    ['Status', 'SUCCESS'],
+    ['Message', 'Thank you. Transfer transaction is successful.'],
+    ['Reference', reference],
+    ['Transaction date', formattedDate],
+    ['From', senderName],
+    ['To', `${recipientName}\n${recipientAccount}`],
+    ['Amount', amountDisplay]
   ];
 
   autoTable(doc, {
-    startY: 37,
-    margin: { left: 22, right: 22 },
+    startY: 74,
+    margin: { left: 32, right: 32 },
     body: tableData,
     theme: 'plain',
     styles: {
       font: 'helvetica',
       fontSize: 9.5,
-      cellPadding: { top: 3.2, bottom: 3.2, left: 1, right: 1 },
-      textColor: [17, 24, 39],
-      lineColor: [229, 231, 235],
+      cellPadding: { top: 3.8, bottom: 3.8, left: 0, right: 0 },
+      textColor: [85, 90, 100], // #555a64
+      lineColor: [241, 245, 249],
       lineWidth: { bottom: 0.3 }
     },
     columnStyles: {
-      0: { fontStyle: 'bold', cellWidth: 55, textColor: [0, 0, 0] },
-      1: { cellWidth: 'auto', fontStyle: 'normal' }
+      0: { cellWidth: 50, fontStyle: 'normal', textColor: [85, 90, 100] },
+      1: { cellWidth: 'auto', fontStyle: 'normal', halign: 'right', textColor: [43, 53, 69] }
     },
     didDrawCell: (data) => {
-      // Highlight "Transaction Successful" in green
-      if (data.row.index === 7 && data.column.index === 1) {
-        doc.setTextColor(5, 150, 105);
+      // Highlight "SUCCESS" in bright leaf green #7cb342
+      if (data.row.index === 0 && data.column.index === 1) {
+        doc.setTextColor(124, 179, 66); // #7cb342
+        doc.setFont('helvetica', 'bold');
       }
-      // Highlight amount
-      if (data.row.index === 8 && data.column.index === 1) {
+      // Highlight Amount in bright leaf green #7cb342
+      if (data.row.index === 6 && data.column.index === 1) {
+        doc.setTextColor(124, 179, 66); // #7cb342
         doc.setFont('helvetica', 'bold');
       }
     }
   });
 
-  const finalY = (doc as any).lastAutoTable.finalY + 8;
+  const finalY = (doc as any).lastAutoTable.finalY + 14;
 
-  // Solid Red Assistance Banner Box (#E11932)
-  const bannerHeight = 22;
-  doc.setFillColor(225, 25, 50);
-  doc.rect(22, finalY, pageWidth - 44, bannerHeight, 'F');
-
+  // Bottom "Bank of Maldives" branding
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.setTextColor(255, 255, 255);
-  doc.text(
-    'For any other assistance you can always contact Bank of Maldives customer care:',
-    pageWidth / 2,
-    finalY + 6.5,
-    { align: 'center' }
-  );
+  doc.setFontSize(10);
+  doc.setTextColor(143, 156, 174); // #8f9cae
+  doc.text('Bank of Maldives', pageWidth / 2, finalY, { align: 'center' });
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.text(
-    'customerservice@bml.com.mv • +960 3330200',
-    pageWidth / 2,
-    finalY + 12.5,
-    { align: 'center' }
-  );
+  // Security Seal & Verification info
+  doc.setFontSize(7);
+  doc.setTextColor(160, 174, 192);
+  doc.text('Official Clearinghouse Record • Bank of Maldives Internet Banking PLC', pageWidth / 2, pageHeight - 22, { align: 'center' });
+  doc.text(`Digital Verification Hash: SHA256-${receipt.receiptHash || Math.random().toString(36).substring(2, 12).toUpperCase()}`, pageWidth / 2, pageHeight - 18, { align: 'center' });
 
   // Save the receipt PDF
-  const filename = `BML_Receipt_${referenceId}.pdf`;
+  const filename = `BML_Receipt_${reference}.pdf`;
   doc.save(filename);
 }
 

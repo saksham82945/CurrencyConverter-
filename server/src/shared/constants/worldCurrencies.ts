@@ -52,7 +52,7 @@ export const WORLD_CURRENCIES: WorldCurrency[] = [
   { id: 'TW', code: 'TWD', name: 'New Taiwan Dollar', country: 'Taiwan', flag: '🇹🇼', symbol: 'NT$', ratePerUSD: 32.10, decimals: 2 },
   { id: 'AF', code: 'AFN', name: 'Afghan Afghani', country: 'Afghanistan', flag: '🇦🇫', symbol: '؋', ratePerUSD: 67.50, decimals: 2 },
   { id: 'BT', code: 'BTN', name: 'Bhutanese Ngultrum', country: 'Bhutan', flag: '🇧🇹', symbol: 'Nu ', ratePerUSD: 84.10, decimals: 2 },
-  { id: 'MV', code: 'MVR', name: 'Maldivian Rufiyaa', country: 'Maldives', flag: '🇲🇻', symbol: 'Rf ', ratePerUSD: 15.45, decimals: 2 },
+  { id: 'MV', code: 'MVR', name: 'Maldivian Rufiyaa', country: 'Maldives', flag: '🇲🇻', symbol: 'Rf ', ratePerUSD: 15.45, decimals: 2, popular: true },
   { id: 'KH', code: 'KHR', name: 'Cambodian Riel', country: 'Cambodia', flag: '🇰🇭', symbol: '៛', ratePerUSD: 4050.0, decimals: 2 },
   { id: 'LA', code: 'LAK', name: 'Lao Kip', country: 'Laos', flag: '🇱🇦', symbol: '₭', ratePerUSD: 21900.0, decimals: 0 },
   { id: 'MM', code: 'MMK', name: 'Myanmar Kyat', country: 'Myanmar', flag: '🇲🇲', symbol: 'K ', ratePerUSD: 2100.0, decimals: 2 },

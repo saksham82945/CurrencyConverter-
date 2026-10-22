@@ -42,8 +42,9 @@ interface MultiCurrencyTransferFormProps {
   onTransferSuccess: (result: TransferResult) => void;
 }
 
-// 7 Primary corridors requested by user
+// Primary corridors supported
 const PRIMARY_CURRENCIES = [
+  { code: 'MVR', name: 'Maldivian Rufiyaa (Rf)', country: 'Maldivian', flag: '🇲🇻' },
   { code: 'INR', name: 'Indian Rupee (₹)', country: 'Indian', flag: '🇮🇳' },
   { code: 'PKR', name: 'Pakistani Rupee (₨)', country: 'Pakistani', flag: '🇵🇰' },
   { code: 'EUR', name: 'Euro (€)', country: 'Euro', flag: '🇪🇺' },
@@ -62,7 +63,7 @@ export const MultiCurrencyTransferForm: React.FC<MultiCurrencyTransferFormProps>
   // Find default USD account or first account
   const defaultAccount = accounts.find((a) => a.currency === 'USD') || accounts[0];
   const [sourceAccountId, setSourceAccountId] = useState(defaultAccount?.id || '');
-  const [targetCurrency, setTargetCurrency] = useState<string>('INR');
+  const [targetCurrency, setTargetCurrency] = useState<string>('MVR');
 
   // Amount inputs (USD & Target)
   const [sourceAmountInput, setSourceAmountInput] = useState('500.00');
@@ -73,9 +74,9 @@ export const MultiCurrencyTransferForm: React.FC<MultiCurrencyTransferFormProps>
   // External Bank Details
   const [institutions, setInstitutions] = useState<InstitutionItem[]>([]);
   const [selectedInstRouting, setSelectedInstRouting] = useState('');
-  const [beneficiaryName, setBeneficiaryName] = useState('Rajesh Sharma');
-  const [beneficiaryAccountNumber, setBeneficiaryAccountNumber] = useState('39481029481');
-  const [rail, setRail] = useState('NEFT');
+  const [beneficiaryName, setBeneficiaryName] = useState('ALI SHAVIN');
+  const [beneficiaryAccountNumber, setBeneficiaryAccountNumber] = useState('7730000852744');
+  const [rail, setRail] = useState('WIRE');
 
   // Custom New Bank State
   const [isAddingNewBank, setIsAddingNewBank] = useState(false);

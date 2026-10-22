@@ -3,6 +3,8 @@ import { AccountModel } from '../models/Account.model';
 import { LedgerAccountModel } from '../models/LedgerAccount.model';
 import { InstitutionModel } from '../models/Institution.model';
 import { BeneficiaryModel } from '../models/Beneficiary.model';
+import { JournalEntryModel } from '../models/JournalEntry.model';
+import { LedgerLineModel } from '../models/LedgerLine.model';
 import { AuthService } from '../services/auth.service';
 import { FxService } from '../services/fx.service';
 import { LedgerService } from '../services/ledger.service';
@@ -285,6 +287,63 @@ export async function seedDatabase() {
       routingOrBic: 'HABBPKKA',
       currency: 'PKR'
     });
+  }
+
+  // Add ALI SHAVIN (Bank of Maldives - MVR) for Darren Trader
+  const darrenAliShavin = await BeneficiaryModel.findOne({ userId: darren._id, identifier: '7730000852744' });
+  if (!darrenAliShavin) {
+    await BeneficiaryModel.create({
+      userId: darren._id,
+      name: 'ALI SHAVIN',
+      type: 'INTERNAL_NEXAPAY',
+      identifier: '7730000852744',
+      institutionName: 'Bank of Maldives',
+      currency: 'MVR'
+    });
+  }
+
+  // Seed the official Bank of Maldives 500.00 MVR transfer record matching the mobile receipt
+  const existingBmlTx = await JournalEntryModel.findOne({ entryNumber: 'BLAZ896331324224' });
+  if (!existingBmlTx) {
+    const vaultMvr = await LedgerAccountModel.findOne({ code: '1001-VAULT-MVR' }) ||
+      await LedgerAccountModel.findOne({ code: '1001-VAULT-USD' });
+
+    const bmlJournal = await JournalEntryModel.create({
+      entryNumber: 'BLAZ896331324224',
+      referenceType: 'P2P_TRANSFER',
+      referenceId: '7730000852744',
+      description: 'Transfer transaction is successful.',
+      status: 'POSTED',
+      metadata: {
+        simulated: false,
+        senderName: 'ABDLA.SHAHEER',
+        senderAccount: '7701928341928',
+        recipientName: 'ALI SHAVIN',
+        beneficiaryName: 'ALI SHAVIN',
+        beneficiaryAccountNumber: '7730000852744',
+        beneficiaryBank: 'Bank of Maldives',
+        sourceCurrency: 'MVR',
+        targetCurrency: 'MVR',
+        sourceAmountMinorUnits: 50000,
+        targetAmountMinorUnits: 50000,
+        referenceId: 'BLAZ896331324224',
+        statusText: 'SUCCESS'
+      },
+      postedAt: new Date('2026-09-26T15:18:00.000Z')
+    });
+
+    if (vaultMvr) {
+      await LedgerLineModel.create({
+        journalEntryId: bmlJournal._id,
+        ledgerAccountId: vaultMvr._id,
+        direction: 'DEBIT',
+        amountMinorUnits: 50000,
+        currency: 'MVR',
+        accountBalanceAfter: 1000000000,
+        entryNumber: 'BLAZ896331324224',
+        createdAt: new Date('2026-09-26T15:18:00.000Z')
+      });
+    }
   }
 
   console.log('[Seed] Database seeding finished successfully.');

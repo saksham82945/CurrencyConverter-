@@ -116,30 +116,73 @@ export const P2PTransferForm: React.FC<P2PTransferFormProps> = ({
       </div>
 
       {/* Recipient Identifier */}
-      <Input
-        label="Recipient Account Number or Email"
-        placeholder="e.g. 7701928341 or forextradingplatformfxe@gmail.com"
-        value={recipientIdentifier}
-        onChange={(e) => setRecipientIdentifier(e.target.value)}
-        required
-        leftIcon={<UserCheck className="w-4 h-4" />}
-        helperText="Demo test recipient: 7701928341 or forextradingplatformfxe@gmail.com"
-      />
+      <div>
+        <Input
+          label="Recipient Account Number or Email"
+          placeholder="e.g. 7730000852744 or ALI SHAVIN"
+          value={recipientIdentifier}
+          onChange={(e) => setRecipientIdentifier(e.target.value)}
+          required
+          leftIcon={<UserCheck className="w-4 h-4 text-emerald-500" />}
+          helperText="Bank of Maldives standard 10-13 digit account number or registered email"
+        />
+
+        {/* Quick Recipient Presets */}
+        <div className="flex flex-wrap items-center gap-1.5 mt-2">
+          <span className="text-[11px] text-slate-400 font-mono">Quick Select:</span>
+          <button
+            type="button"
+            onClick={() => {
+              setRecipientIdentifier('7730000852744');
+              setDescription('Transfer to ALI SHAVIN');
+              if (!amountInput) setAmountInput('500.00');
+            }}
+            className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 transition-all active:scale-95 flex items-center gap-1"
+          >
+            <span>🇲🇻 ALI SHAVIN (7730000852744)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setRecipientIdentifier('bob@bankofmaldives.com.mv')}
+            className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all active:scale-95"
+          >
+            Bob Smith
+          </button>
+        </div>
+      </div>
 
       {/* Amount Input */}
       <div>
-        <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
-          Amount ({selectedAccount?.currency})
-        </label>
+        <div className="flex items-center justify-between mb-1.5">
+          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+            Amount ({selectedAccount?.currency || 'MVR'})
+          </label>
+          <div className="flex items-center gap-1">
+            {['50.00', '100.00', '500.00', '1000.00'].map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => setAmountInput(preset)}
+                className={`text-[10px] font-mono px-2 py-0.5 rounded transition-all ${
+                  amountInput === preset
+                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
+                    : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400'
+                }`}
+              >
+                {preset === '500.00' ? '★ 500' : preset.replace('.00', '')}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="relative">
           <span className="absolute left-3.5 top-3 text-slate-400 font-mono font-bold text-sm">
-            {selectedAccount?.currency === 'EUR' ? '€' : selectedAccount?.currency === 'GBP' ? '£' : '$'}
+            {selectedAccount?.currency === 'MVR' ? 'Rf' : selectedAccount?.currency === 'EUR' ? '€' : selectedAccount?.currency === 'GBP' ? '£' : '$'}
           </span>
           <input
             type="number"
             step="0.01"
             min="0.01"
-            placeholder="0.00"
+            placeholder="500.00"
             value={amountInput}
             onChange={(e) => setAmountInput(e.target.value)}
             required

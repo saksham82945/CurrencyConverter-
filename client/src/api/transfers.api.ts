@@ -93,6 +93,7 @@ export interface ReceiptData {
     accountCode?: string;
     accountName?: string;
     direction: string;
+    amountMinorUnits?: number;
     amountFormatted: string;
     currency?: string;
     balanceAfterFormatted?: string;
